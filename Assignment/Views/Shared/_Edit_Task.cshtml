@@ -1,0 +1,96 @@
+﻿@model Assignment.DAL.ViewModals.EditTask
+
+<div class="modal fade" id="editTaskId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <div class="modal-title text-light" style="font-weight:bold" id="exampleModalLongTitle">Task Form</div>
+            </div>
+            <form class="p-3" method="post" id="edittaskform" onsubmit="EditTaskPost()">
+                <input type="text" asp-for="@Model.Id" id="Id" hidden />
+
+                <div class="row">
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <input asp-for="@Model.TaskName" type="text" class="form-control" id="floatingTName" />
+                        <label for="floatingTName" class="ms-2">Task Name</label>
+                        <span class="text-danger" asp-validation-for="@Model.TaskName"></span>
+                    </div>
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <input asp-for="@Model.Assignee" type="text" class="form-control" id="floatingAName" />
+                        <label for="floatingAName" class="ms-2">Assignee</label>
+                        <span class="text-danger" asp-validation-for="@Model.Assignee"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <input asp-for="@Model.Notes" type="text" class="form-control" id="Discription" />
+                        <label for="Discription" class="ms-2">Discription</label>
+                        <span class="text-danger" asp-validation-for="@Model.Notes"></span>
+                    </div>
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <input asp-for="@Model.DueDate" type="date" class="form-control" id="birthDate" max="">
+                        <label for="birthDate" class="ms-2">Due Date</label>
+                        <span class="text-danger" asp-validation-for="@Model.DueDate"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <input asp-for="@Model.City" type="text" class="form-control" id="City" />
+                        <label for="City" class="ms-2">City</label>
+                        <span class="text-danger" asp-validation-for="@Model.City"></span>
+                    </div>
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <select id="categoryId" class="form-select p-0 ps-2 mb-2 regionDropdown" aria-label="Default select example" asp-for="@Model.categoryId">
+                            <option selected disabled>Select Category</option>
+                            @foreach (var obj in Model.Categories)
+                            {
+                                <option value="@obj.Id">
+                                    @obj.Name
+                                </option>
+                            }
+                        </select>
+                        <span class="text-danger" asp-validation-for="@Model.categoryId"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <button type="button" class="btn btn-outline-secondary border-secondary hover_white h-auto py-1 w-100" style="font-weight:600" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col-12 col-md-6 form-floating mb-3">
+                        <button type="submit" class="btn btn-primary m-0 h-auto py-1 w-100" style="font-weight:600">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/AddTask.js" asp-append-version="true"></script>
+
+<script>
+    function EditTaskPost() {
+        event.preventDefault();
+
+        if ($('#edittaskform').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Task/EditTaskPost",
+                data: $('#edittaskform').serialize(),
+
+                success: function (result) {
+                    if (result.code == 401) {
+                        location.reload();
+                    }
+                    $('#editTaskId').modal('hide');
+                    location.reload();
+                },
+
+                error: function () {
+                    Swal.fire("Oops", "Something Went Wrong", "error");
+                }
+            });
+        }
+    }
+</script>

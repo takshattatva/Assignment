@@ -1,0 +1,80 @@
+﻿@model Assignment.DAL.ViewModals.TaskTableVm
+
+@{
+    ViewData["Title"] = "Task Table";
+}
+
+<h2 class="text-center bg-info py-2">Task Management Systems</h2>
+
+<div class="d-flex justify-content-between">
+    <button onclick="AddTask()" class="btn btn-info text-dark shadow h-100 px-5"><span style="font-weight:600;">Add Task</span></button>
+    <input class="h-auto py-2 form-control border-0 my-search-input shadow" id="my-search-input2" type="text" placeholder="Search" aria-label="Search" style="width:30%">
+</div>
+<table class="table table-hover TaskTable">
+    <thead>
+        <tr>
+            <th>
+                Task Id
+            </th>
+            <th>
+                Task Name
+            </th>
+            <th>
+                Assignee
+            </th>
+            <th>
+                Discription
+            </th>
+            <th>
+                Due Date
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TaskList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Taskname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assignee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duedate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    <button onclick="EditTask(@item.Id)" class="btn btn-info text-white shadow h-100"><span style="font-weight:600;">Edit</span></button>
+                    <button onclick="DeleteTask(@item.Id)" class="btn btn-danger text-white shadow h-100 ms-1"><span style="font-weight:600;">Delete</span></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div id="showCaseModal">
+</div>
+
+<script src="~/js/AddTask.js" asp-append-version="true"></script>
